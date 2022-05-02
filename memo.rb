@@ -19,4 +19,18 @@ class Memo < Post
     time_string = "создано: #{@create_at.strftime("%Y.%m.%d, %H:%M:%S")} \n\r \n\r"
     return @text.unshift(time_string)
   end
+
+  def to_db_hash
+    return super.merge(
+      {
+        'text' => @text.join('\n\r')
+      }
+    )
+  end
+
+  def load_data(data_hash)
+    super(data_hash)
+    @text = data_hash['text'].split('\n\r')
+  end
+
 end
